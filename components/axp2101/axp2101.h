@@ -49,7 +49,6 @@ private:
     static std::string GetStartupReason();
 
 protected:
-    esphome::GPIOPin *irq_pin_{nullptr};
     sensor::Sensor *batteryvoltage_sensor_;
     sensor::Sensor *batterylevel_sensor_;
     binary_sensor::BinarySensor *batterycharging_bsensor_;
