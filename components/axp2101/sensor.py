@@ -1,18 +1,14 @@
 import esphome.codegen as cg
 import esphome.config_validation as cv
-from esphome.components import sensor, text_sensor, i2c
-from esphome.const import (
-    CONF_ID,
-    CONF_ADDRESS,
-    CONF_UPDATE_INTERVAL,
-)
+from esphome.components import sensor, i2c
+from esphome.components import text_sensor
+from esphome.const import CONF_ID
 
 DEPENDENCIES = ["i2c"]
 
 axp2101_ns = cg.esphome_ns.namespace("axp2101")
 AXP2101Component = axp2101_ns.class_("AXP2101Component", cg.PollingComponent, i2c.I2CDevice)
 
-# YAML keys
 CONF_MODEL = "model"
 CONF_BRIGHTNESS = "brightness"
 CONF_BATTERY_CHARGING = "battery_charging"
@@ -26,8 +22,8 @@ CONFIG_SCHEMA = cv.Schema({
     cv.GenerateID(): cv.declare_id(AXP2101Component),
 
     cv.Required(CONF_MODEL): cv.string,
-    cv.Optional(CONF_ADDRESS, default=0x34): cv.i2c_address,
-    cv.Optional(CONF_UPDATE_INTERVAL, default="30s"): cv.update_interval,
+    cv.Optional("address", default=0x34): cv.i2c_address,
+    cv.Optional("update_interval", default="30s"): cv.update_interval,
     cv.Optional(CONF_BRIGHTNESS, default=128): cv.int_range(min=0, max=255),
 
     cv.Optional(CONF_BATTERY_CHARGING): sensor.sensor_schema(),
