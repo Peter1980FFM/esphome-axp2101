@@ -39,7 +39,6 @@ std::string AXP2101Component::decode_power_key(uint8_t val) {
 }
 
 void AXP2101Component::set_brightness(uint8_t brightness) {
-  // Safe: Backlight PWM register
   write_u8(0x27, brightness);
 }
 
@@ -85,7 +84,7 @@ void AXP2101Component::update() {
     std::string event = decode_power_key(key);
     this->power_key_sensor->publish_state(event);
 
-    // Auto-reset (Option 1)
+    // Auto-reset
     if (event != "none") {
       write_u8(0x46, 0x00);
     }
