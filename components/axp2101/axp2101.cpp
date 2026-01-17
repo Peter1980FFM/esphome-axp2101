@@ -22,6 +22,13 @@ static const char *TAG = "axp2101.sensor";
 
 void AXP2101Component::setup() {
   ESP_LOGCONFIG(TAG, "AXP2101 setup, startup reason: %s", GetStartupReason().c_str());
+  ESP_LOGCONFIG(TAG, "Dumping AXP2101 registers...");
+
+  for (uint8_t reg = 0x00; reg <= 0xFF; reg++) {
+    uint8_t val = Read8bit(reg);
+    ESP_LOGCONFIG(TAG, "REG 0x%02X = 0x%02X", reg, val);
+}
+
 
   // Hier bewusst KEIN XPowersLib, KEIN eigener I2C-Treiber.
   // Wir verlassen uns auf die Default-PMU-Konfiguration des Core2
