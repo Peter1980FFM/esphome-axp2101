@@ -23,7 +23,7 @@ const uint8_t i2c_sda = CONFIG_PMU_SDA;
 const uint8_t i2c_scl = CONFIG_PMU_SCL;
 const uint8_t pmu_irq_pin = CONFIG_PMU_IRQ;
 
-void setFlag(void)
+void IRAM_ATTR setFlag(void *arg)
 {
     pmu_flag = true;
 }
