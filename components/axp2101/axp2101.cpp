@@ -247,10 +247,12 @@ void AXP2101Component::setup()
 
 
     // Force add pull-up
-    pinMode(pmu_irq_pin, INPUT_PULLUP);
-    attachInterrupt(pmu_irq_pin, setFlag, FALLING);
-
-
+    this->irq_pin_ = new esphome::gpio::GPIOPin(
+    pmu_irq_pin,
+    esphome::gpio::FLAG_INPUT | esphome::gpio::FLAG_PULLUP
+    );
+    this->irq_pin_->setup();
+    this->irq_pin_->attach_interrupt(setFlag, esphome::gpio::INTERRUPT_FALLING_EDGE);
     // Disable all interrupts
     PMU.disableIRQ(XPOWERS_AXP2101_ALL_IRQ);
     // Clear all interrupt flags
