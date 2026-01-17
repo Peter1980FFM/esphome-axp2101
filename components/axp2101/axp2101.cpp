@@ -21,7 +21,8 @@ namespace axp2101 {
 static const char *TAG = "axp2101.sensor";
 
 void AXP2101Component::setup() {
-  ESP_LOGCONFIG(TAG, "AXP2101 setup, startup reason: %s", GetStartupReason().c_str());
+  ESP_LOGCONFIG(TAG, ">>> ENTERING AXP2101 SETUP <<<");
+
 
   ESP_LOGCONFIG(TAG, "Enabling AXP2101 ADC engine");
   Write1Byte(0x82, 0xFF);   // Enable all ADC channels
