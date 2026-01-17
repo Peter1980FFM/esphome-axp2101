@@ -1,3 +1,4 @@
+#warning "AXP2101 FROM PETER1980FFM FORK LOADED"
 #include "axp2101.h"
 #include "esp_sleep.h"
 #include "esphome/core/log.h"
