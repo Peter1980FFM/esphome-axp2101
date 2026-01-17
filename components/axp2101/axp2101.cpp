@@ -42,6 +42,7 @@ void AXP2101Component::update() {
   // Spannung + Level aus den Rohregistern (wie in deinen Helpern)
   if (this->batterylevel_sensor_ != nullptr || this->batteryvoltage_sensor_ != nullptr) {
     uint16_t raw_vbat = GetVbatData();  // 12-bit Wert aus 0x78/0x79
+    ESP_LOGD(TAG, "AXP2101 RAW VBAT = 0x%04X", raw_vbat);
 
     // Grobe Skalierung: AXP21xx nutzt typischerweise ~1.1mV/LSB
     float vbat_mv = raw_vbat * 1.1f;
