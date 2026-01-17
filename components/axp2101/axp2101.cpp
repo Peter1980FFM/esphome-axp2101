@@ -21,15 +21,11 @@ namespace axp2101 {
 static const char *TAG = "axp2101.sensor";
 
 void AXP2101Component::setup() {
-  ESP_LOGCONFIG(TAG, ">>> ENTERING AXP2101 SETUP <<<");
+  ESP_LOGCONFIG(TAG, "AXP2101 setup, startup reason: %s", GetStartupReason().c_str());
 
-
-  ESP_LOGCONFIG(TAG, "Enabling AXP2101 ADC engine");
-  Write1Byte(0x82, 0xFF);   // Enable all ADC channels
-  Write1Byte(0x84, 0x00);   // ADC sample rate = 25Hz
-  
-  uint8_t pwr = Read8bit(0x12);
-  Write1Byte(0x12, pwr | 0x01);  // Enable DCDC1// Hier bewusst KEIN XPowersLib, KEIN eigener I2C-Treiber.
+  // Hier bewusst KEIN XPowersLib, KEIN eigener I2C-Treiber.
+  // Wir verlassen uns auf die Default-PMU-Konfiguration des Core2
+  // und nutzen nur Register-Lesezugriffe über I2CDevice.
 }
 
 void AXP2101Component::dump_config() {
@@ -46,7 +42,6 @@ void AXP2101Component::update() {
   // Spannung + Level aus den Rohregistern (wie in deinen Helpern)
   if (this->batterylevel_sensor_ != nullptr || this->batteryvoltage_sensor_ != nullptr) {
     uint16_t raw_vbat = GetVbatData();  // 12-bit Wert aus 0x78/0x79
-    ESP_LOGD(TAG, "AXP2101 RAW VBAT = 0x%04X", raw_vbat);
 
     // Grobe Skalierung: AXP21xx nutzt typischerweise ~1.1mV/LSB
     float vbat_mv = raw_vbat * 1.1f;
