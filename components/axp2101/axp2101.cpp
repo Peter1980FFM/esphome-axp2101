@@ -23,9 +23,14 @@ static const char *TAG = "axp2101.sensor";
 void AXP2101Component::setup() {
   ESP_LOGCONFIG(TAG, "AXP2101 setup, startup reason: %s", GetStartupReason().c_str());
 
-  // Hier bewusst KEIN XPowersLib, KEIN eigener I2C-Treiber.
-  // Wir verlassen uns auf die Default-PMU-Konfiguration des Core2
-  // und nutzen nur Register-Lesezugriffe über I2CDevice.
+  ESP_LOGCONFIG(TAG, "Enabling AXP2101 ADC engine");
+  Write1Byte(0x82, 0xFF);   // Enable all ADC channels
+  Write1Byte(0x84, 0x00);   // ADC sample rate = 25Hz
+  
+  uint8_t pwr = Read8bit(0x12);
+  Write1Byte(0x12, pwr | 0x01);  // Enable DCDC1// Hier bewusst KEIN XPowersLib, KEIN eigener I2C-Treiber.
+  
+  Write1Byte(0x82, Read8bit(0x82) | 0x80);
 }
 
 void AXP2101Component::dump_config() {
